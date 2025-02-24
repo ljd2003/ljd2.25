@@ -25,3 +25,17 @@ homework
    classifier = pipeline("sentiment-analysis", model="finiteautomata/bertweet-base-sentiment-analysis")
    result = classifier("I love this product!")[0]
    print(result)  # {'label': 'POSITIVE', 'score': 0.9998}
+from bertopic import BERTopic
+model = BERTopic()
+topics, probabilities = model.fit_transform(documents)
+graph TD
+    A[数据源] --> B[Kafka消息队列]
+    B --> C{实时处理?}
+    C -->|Yes| D[Spark Streaming]
+    C -->|No| E[批量处理]
+    D & E --> F[特征工程]
+    F --> G[BERTopic模型]
+    G --> H[情感分析]
+    H --> I[数据湖存储]
+    I --> J[可视化看板]
+    
